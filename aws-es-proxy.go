@@ -99,6 +99,12 @@ func newProxy(args ...interface{}) *proxy {
 		CheckRedirect: noRedirect,
 	}
 
+	if args[12].(bool) == true {
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+	}
+
 	return &proxy{
 		endpoint:        args[0].(string),
 		verbose:         args[1].(bool),
@@ -310,7 +316,6 @@ func (p *proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 			fmt.Println()
 			fmt.Println("========================")
-			fmt.Println("Region: ", p.region)
 			fmt.Println(t.Format("2006/01/02 15:04:05"))
 			fmt.Println("Remote Address: ", r.RemoteAddr)
 			fmt.Println("Request URI: ", proxied.RequestURI())
