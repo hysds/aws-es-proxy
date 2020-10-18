@@ -99,12 +99,6 @@ func newProxy(args ...interface{}) *proxy {
 		CheckRedirect: noRedirect,
 	}
 
-	if args[12].(bool) == true {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		}
-	}
-
 	return &proxy{
 		endpoint:        args[0].(string),
 		verbose:         args[1].(bool),
